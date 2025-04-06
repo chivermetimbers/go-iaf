@@ -1,4 +1,4 @@
-package internal
+package pkg
 
 import "math"
 import "gonum.org/v1/gonum/graph"
@@ -20,6 +20,7 @@ type Neuron struct {
 	R    float64
 	X    float64
 	Y    float64
+	U    float64
 }
 
 // should probably separate this out into a separate file at some point
@@ -33,12 +34,13 @@ type GraphNode struct {
 }
 
 // Turn this into a method
-func NewNeuron(resting_potential float64, capacitance float64, resistance float64, x float64, y float64) Neuron {
+func NewNeuron(resting_potential float64, capacitance float64, resistance float64, x float64, y float64, u float64) Neuron {
 	return Neuron{
 		Rest: resting_potential,
 		C:    capacitance,
 		R:    resistance,
 		X:    x,
 		Y:    y,
+		U:    u,
 	}
 }
