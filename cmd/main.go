@@ -38,5 +38,5 @@ func main() {
 	fmt.Println(a)
 	fmt.Printf("The voltage of a is: %v", a.U)
 	a.U = u[1]
-	fmt.Println("The voltage of a is: %v", a.U)
+	fmt.Printf("The voltage of a is: %v", a.U)
 }
