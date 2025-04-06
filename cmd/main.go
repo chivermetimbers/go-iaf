@@ -3,6 +3,8 @@ package main
 import "neuro/iaf-model/internal"
 import "fmt"
 
+//TODO: Add AddToGraph function
+
 // Why can't I populate the array outside of the main function here?
 var rest [2]float64
 var cap [2]float64
@@ -28,5 +30,7 @@ func main() {
 	distance := a.Distance(b)
 	// Square root of 2!
 	fmt.Println(distance)
+	G := *a.NewGraphNode(1, "test")
+	fmt.Println(G)
 	fmt.Println(a)
 }
