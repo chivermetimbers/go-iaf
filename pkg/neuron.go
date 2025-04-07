@@ -15,25 +15,19 @@ type Neuron struct {
 	R    float64
 	X    float64
 	Y    float64
-	U    float64
+	I    float64
 }
 
 // should probably separate this out into a separate file at some point
 
 // Turn this into a method
-func NewNeuron(resting_potential float64, capacitance float64, resistance float64, x float64, y float64, u float64) Neuron {
+func NewNeuron(resting_potential float64, capacitance float64, resistance float64, x float64, y float64, i float64) Neuron {
 	return Neuron{
 		Rest: resting_potential,
 		C:    capacitance,
 		R:    resistance,
 		X:    x,
 		Y:    y,
-		U:    u,
+		I:    i,
 	}
-}
-
-// This will eventually compute the potential for a given time
-// Or maybe it would be better if took a time array and returned a voltage array?
-func (n Neuron) NullPotential(t float64) float64 {
-	return t
 }
