@@ -12,40 +12,43 @@ import (
 	"gonum.org/v1/plot/vg"
 )
 
-//import "gonum.org/v1/plot"
-
 //TODO: Add AddToGraph function
 
-// Why can't I populate the array outside of the main function here?
-var rest [2]float64
-var cap [2]float64
-var res [2]float64
-var x [2]float64
-var y [2]float64
-var i [2]float64
+var rest float64
+var cap float64
+var res float64
+var x float64
+var y float64
+var i float64
 
 func main() {
-	rest[0] = -20.0
-	rest[1] = -50.0
-	cap[0] = 10.0
-	cap[1] = 12.0
-	res[0] = 5
-	res[1] = 6
-	x[0] = 1
-	y[0] = 1
-	x[1] = 2
-	y[1] = 2
-	i[0] = 10
-	i[1] = 1
-	// Definitely need a quicker way to create sets of randomized neurons
-	time_points := utils.CreateTimeArray(0, 30, 0.25)
-	a := pkg.NewNeuron(rest[0], cap[0], res[0], x[0], y[0], i[0])
-	//b := pkg.NewNeuron(rest[1], cap[1], res[1], x[1], y[1], u[1])
+	rest = -65.0
+	cap = 0.10
+	res = 0.50
+	i = 0.015
 
-	membrane_eq := pkg.U(a.R, a.C, a.Rest, a.I, time_points)
+	// Create an array of time points
+	time_points, err := utils.CreateTimeArray(0, 1, 0.001)
+	if err != nil {
+		log.Fatal(err)
+	}
+	a := pkg.NewNeuron(rest, cap, res, i)
+
+	membrane_eq := pkg.SolutionConstI(a.R, a.C, a.Rest, a.I, time_points)
 	fmt.Printf("There are %v time points", len(time_points))
 	fmt.Printf("There are %v solutions", len(membrane_eq))
+
 	p := plot.New()
+	p.Title.Text = "Membrane Voltage (V) vs Time (s)"
+	p.X.Label.Text = "Time(s)"
+	p.Y.Label.Text = "Membrane Voltage(V)"
+	minY := utils.MinFloat64(membrane_eq)
+	maxY := utils.MaxFloat64(membrane_eq)
+	p.Y.Tick.Marker = plot.ConstantTicks{
+		{Value: minY, Label: fmt.Sprintf("%.2f", minY)},
+		{Value: (minY + maxY) / 2, Label: fmt.Sprintf("%.2f", (minY+maxY)/2)},
+		{Value: maxY, Label: fmt.Sprintf("%.2f", maxY)},
+	}
 
 	pts := make(plotter.XYs, len(time_points))
 	for i := range time_points {
@@ -54,14 +57,14 @@ func main() {
 
 	}
 
-	//Add scatter plot
-	points, err := plotter.NewScatter(pts)
+	//Add Line plot
+	points, err := plotter.NewLine(pts)
 	if err != nil {
 		log.Fatal(err)
 	}
 	p.Add(points)
 
-	if err := p.Save(10.16*vg.Centimeter, 10.16*vg.Centimeter, "plot.png"); err != nil {
+	if err := p.Save(20.32*vg.Centimeter, 20.32*vg.Centimeter, "plot.png"); err != nil {
 		log.Fatal(err)
 	}
 
