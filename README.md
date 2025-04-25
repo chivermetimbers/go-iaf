@@ -1,1 +1,1 @@
-A Go implementation of leaky integrate and fire neuronal circuit model
+Simple interactive plots for various neuronal models in Golang. Examples are found in `/examples`.
